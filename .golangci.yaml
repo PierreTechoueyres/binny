@@ -1,3 +1,5 @@
+version: "2"
+
 issues:
   max-same-issues: 25
   uniq-by-line: false
@@ -9,7 +11,7 @@ issues:
 
 linters:
   # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
-  disable-all: true
+  default: none
   enable:
     - asciicheck
     - bodyclose
@@ -40,23 +42,23 @@ linters:
     - unparam
     - unused
     - whitespace
+  settings:
+    funlen:
+      # Checks the number of lines in a function.
+      # If lower than 0, disable the check.
+      # Default: 60
+      lines: 70
+      # Checks the number of statements in a function.
+      # If lower than 0, disable the check.
+      # Default: 40
+      statements: 50
+    gosec:
+      excludes:
+        - G115
 
-linters-settings:
-  funlen:
-    # Checks the number of lines in a function.
-    # If lower than 0, disable the check.
-    # Default: 60
-    lines: 70
-    # Checks the number of statements in a function.
-    # If lower than 0, disable the check.
-    # Default: 40
-    statements: 50
-  gosec:
-    excludes:
-      - G115
 run:
-  timeout: 10m
-  tests: false
+    timeout: 10m
+    tests: false
 
 # do not enable...
 #    - deadcode          # The owner seems to have abandoned the linter. Replaced by "unused".

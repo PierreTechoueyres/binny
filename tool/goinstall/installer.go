@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"text/template"
 
@@ -76,6 +77,10 @@ func (i Installer) InstallTo(version, destDir string) (string, error) {
 
 	if err := i.goInstallRunner(spec, ldflags, args, env, destDir, isLocal, binName); err != nil {
 		return "", fmt.Errorf("failed to install: %v", err)
+	}
+
+	if runtime.GOOS == "windows" && !isLocal {
+		binPath += ".exe"
 	}
 
 	return binPath, nil
